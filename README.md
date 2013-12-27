@@ -20,7 +20,7 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 This message:
 
 ````
-<166>2013-12-27T16:12:57.896Z esxcac01094n01.corp.costco.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n
+<166>2013-12-27T16:12:57.896Z hostname.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n
 ````
 
 Parsed by this filter:
