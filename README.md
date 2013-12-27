@@ -15,11 +15,22 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 
 3. [NXLOG Config](https://github.com/harrytruman/logstash-vmware/blob/master/nxlog.conf): Ships messages from Windows to Logstash.
 
-## Filter Examples:
+## Filter Examples
 
-The vast majority of messages are parsed properly with just a few filters:
+This message:
 
-[Results displayed in Kibana](http://i.imgur.com/2dA4WGI.png):
+````
+<166>2013-12-27T16:12:57.896Z esxcac01094n01.corp.costco.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n
+````
+
+Parsed by this filter:
+
+````
+<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{SYSLOGHOST:hostname} %{SYSLOGPROG}: (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) \[%{DATA:esxi_service_info}]\ (?<esxi_message>(%{GREEDYDATA})))
+````
+
+Index and displayed like this:
+
 ````json
 {
   "_index": "logstash-2013.12.27",
@@ -45,21 +56,13 @@ The vast majority of messages are parsed properly with just a few filters:
     "syslog_facility": "local4",
     "syslog_severity": "informational",
     "ip_address": "172.24.69.100",
-    "message-raw": "<166>2013-12-27T16:12:57.896Z hostname.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n",
-    "message": "[507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host"
+    "message-raw": "<166>2013-12-27T16:12:57.896Z hostname.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost'
+      opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n",
+    "message": "[507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for
+      tracked MoRef vim.HostSystem:ha-host"
   },
-  "sort": [
-    1388160777896
-  ]
+  "sort": [ 1388160777896 ]
 }
 ````
 
-From this message:
-````
-<166>2013-12-23T21:14:04.070Z hostname.com Vpxa: [50775B90 verbose 'VpxaHalCnxHostagent' opID=WFU-feba478c] [WaitForUpdatesDone] Completed callback
-````
-
-Parsed by this filter:
-````
-<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{SYSLOGHOST:hostname} %{SYSLOGPROG}: (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) \[%{DATA:esxi_service_info}]\ (?<esxi_message>(%{GREEDYDATA})))
-````
+<a href="http://imgur.com/2dA4WGI"><img src="http://i.imgur.com/2dA4WGI.png" title="Screenshot from Kibana" /></a>
