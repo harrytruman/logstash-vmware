@@ -1,0 +1,73 @@
+# logstash.conf
+# See README.rb for an explanation of the workflow and more detail about the various match and mutate patterns.
+
+# Input from Redis
+input {
+  redis {
+    host => "192.168.1.1"
+    port => "6379"
+    data_type => "list"
+    key => "logstash"
+    codec => "json"
+    type => "syslog"
+  }
+}
+
+# ESX and vCenter filtering and parsing based on tags that get set from the collection instance.
+filter {
+  if "esx" in [tags] {
+    grok {
+      break_on_match => false
+      match => [
+        "message", "<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{SYSLOGHOST:hostname} %{SYSLOGPROG}: (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) \[%{DATA:esxi_service_info}]\ (?<esxi_message>(%{GREEDYDATA})))",
+        "message", "<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{SYSLOGHOST:hostname} %{SYSLOGPROG}: (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) (?<esxi_message>(%{GREEDYDATA})))",
+        "message", "<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{SYSLOGHOST:hostname} %{SYSLOGPROG}: %{GREEDYDATA:esxi_message}"
+      ]
+    }
+  }
+  if "vcenter" in [tags] {
+    grok {
+      break_on_match => false
+      match => [
+        "message", "%{TIMESTAMP_ISO8601:time} (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) \[%{DATA:esxi_service_info}]\ (?<esxi_message>(%{GREEDYDATA})))",
+        "message", "%{TIMESTAMP_ISO8601:time} (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) (?<esxi_message>(%{GREEDYDATA})))",
+        "message", "<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{GREEDYDATA:esxi_message}"
+      ]
+    }
+  }
+  if "_grokparsefailure" in [tags] {
+    grok {
+      break_on_match => false
+      match => [
+        "message", "<%{POSINT:syslog_pri}>%{DATA:esxi_system_info},  (?<messagebody>(%{SYSLOGHOST:esxi_hostname} %{SYSLOGPROG}: %{GREEDYDATA:esxi_message}))",
+        "message", "${GREEDYDATA:_parsing_failure}"
+      ]
+    }
+    mutate {
+      remove_tag => [ "_grokparsefailure" ]
+    }
+  }
+  syslog_pri { }
+  mutate {
+    rename => [ "host", "ip_address" ]
+    rename => [ "message", "message-raw" ]
+    rename => [ "messagebody", "message" ]
+    remove_field => [ "@version", "type" ]
+  }
+  cidr {
+    add_tag => [ "nonprod" ]
+    address => [ "%{ip_address}" ]
+    network => [ "172.24.0.0/16" ]
+  }
+}
+
+# Output to Elasticsearch
+output {
+  elasticsearch_http {
+    host => "192.168.1.2"
+    port => "9200"
+    flush_size => "1000"
+    idle_flush_time => "30"
+  }
+#  stdout { codec => rubydebug }
+}
