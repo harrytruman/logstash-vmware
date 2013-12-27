@@ -19,21 +19,38 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 
 The vast majority of messages are parsed properly with just a few filters:
 
-Results:
-````
+[Results displayed in Kibana](http://i.imgur.com/2dA4WGI.png):
+````json
 {
-"syslog_pri":         "166"
-"time":               "2013-12-23T21:14:04.070Z"
-"hostname":           "hostname.com"
-"program":            "Vpxa"
-"esxi_system_info":   [50775B90 verbose 'VpxaHalCnxHostagent' opID=WFU-feba478c]"
-"esxi_thread_id":     "50775B90"
-"esxi_loglevel":      "verbose"
-"esxi_service":       "VpxaHalCnxHostagent"
-"esxi_opID":          "opID=WFU-feba478c"
-"esxi_service_info":  "WaitForUpdatesDone"
-"esxi_message":       "Completed callback"
-"messagebody":        [50775B90 verbose 'VpxaHalCnxHostagent' opID=WFU-feba478c] [WaitForUpdatesDone] Completed callback"
+  "_index": "logstash-2013.12.27",
+  "_type": "logs",
+  "_id": "Y9sWc0EnQ5q5TRVle-Xwgg",
+  "_score": null,
+  "_source": {
+    "@timestamp": "2013-12-27T16:12:57.896Z",
+    "tags": [ "esx", "np" ],
+    "syslog_pri": "166",
+    "time": "2013-12-27T16:12:57.896Z",
+    "hostname": "hostname.com",
+    "program": "Vpxa",
+    "esxi_system_info": "[507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e]",
+    "esxi_thread_id": "507F9B90",
+    "esxi_loglevel": "verbose",
+    "esxi_service": "vpxavpxaInvtHost",
+    "esxi_opID": "opID=WFU-e579383e",
+    "esxi_service_info": "HostChanged",
+    "esxi_message": "Found update for tracked MoRef vim.HostSystem:ha-host",
+    "syslog_severity_code": 6,
+    "syslog_facility_code": 20,
+    "syslog_facility": "local4",
+    "syslog_severity": "informational",
+    "ip_address": "172.24.69.100",
+    "message-raw": "<166>2013-12-27T16:12:57.896Z hostname.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n",
+    "message": "[507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host"
+  },
+  "sort": [
+    1388160777896
+  ]
 }
 ````
 
