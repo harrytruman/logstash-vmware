@@ -4,7 +4,7 @@ logstash-vmware
 Logstash configs and filters for handling ESXi and vSphere 5.1+ messages.
 
 
-# Files
+## Files
 
 1. [Logstash Parser](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-parser.conf): Filters and message mutations for ESX and vCenter messages.
 
@@ -12,7 +12,7 @@ Logstash configs and filters for handling ESXi and vSphere 5.1+ messages.
 
 3. Coming soon: nxlog config
 
-# Log Message Workflow
+## Log Message Workflow
 
 #### Shipping
 Log messages get shipped to the Logstash collector/forwarder by standard syslog on ESX hosts (and vCenter appliances) or nxlog on Windows. 
@@ -23,7 +23,7 @@ The central Logstash forwarding instance receives messages, tags them as ESX or 
 #### Parsing
 The Logstash parsing instance receives messages from Redis, performs tag-based filtering and parsing, and sends them to Elasticsearch for indexing.
 
-# Examples:
+## Examples:
 
 The vast majority of messages are parsed properly with just a few filters:
 
