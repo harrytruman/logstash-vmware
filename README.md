@@ -1,7 +1,7 @@
 logstash-vmware
 ===============
 
-Logstash configs and filters for handling ESXi and vSphere 5.1+ messages.
+Logstash configs and filters for handling ESX and vSphere 5.1+ messages.
 
 
 ## Files
