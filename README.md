@@ -9,59 +9,55 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 
 ## Configs
 
-1. [Logstash Parser](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-parser.conf): Performs tag-based filtering/parsing and sends them to Elasticsearch for indexing.
+1. [Logstash](https://github.com/harrytruman/logstash-vmware/blob/master/logstash.conf): Performs tag-based filtering/parsing and sends them to Elasticsearch for indexing.
 
-2. [Logstash Forwarder](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-forwarder.conf): Central forwarder, environment tagging of messages, and forwarding to Redis.
+2. [Logstash Forwarder](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-forwarder.conf): Central forwarder; environment tagging of messages and forwarding to Redis.
 
-3. [NXLOG Config](https://github.com/harrytruman/logstash-vmware/blob/master/nxlog.conf): Ships messages from Windows to Logstash.
+3. [Logstash Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-vcenter.conf): Ships messages from Windows to Logstash.
 
 ## Filter Examples
 
 This message:
-
 ````
 <166>2013-12-27T16:12:57.896Z hostname.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n
 ````
 
 Parsed by this filter:
-
 ````
-<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:time} %{SYSLOGHOST:hostname} %{SYSLOGPROG}: (?<messagebody>(?<esxi_system_info>(?:\[%{DATA:esxi_thread_id} %{DATA:esxi_loglevel} \'%{DATA:esxi_service}\'\ ?%{DATA:esxi_opID}])) \[%{DATA:esxi_service_info}]\ (?<esxi_message>(%{GREEDYDATA})))
+"message", "<%{POSINT:syslog_pri}>%{TIMESTAMP_ISO8601:@timestamp} %{SYSLOGHOST:hostname} %{SYSLOGPROG:message_program}: (?<message-body>(?<message_system_info>(?:\[%{DATA:message_thread_id} %{DATA:syslog_level} \'%{DATA:message_service}\'\ ?%{DATA:message_opID}])) \[%{DATA:message_service_info}]\ (?<message-syslog>(%{GREEDYDATA})))",
 ````
 
-Index and displayed like this:
-
+Index and displayed like this (formatted for readability):
 ````json
 {
-  "_index": "logstash-2013.12.27",
-  "_type": "logs",
-  "_id": "Y9sWc0EnQ5q5TRVle-Xwgg",
-  "_score": null,
-  "_source": {
-    "@timestamp": "2013-12-27T16:12:57.896Z",
-    "tags": [ "esx", "np" ],
-    "syslog_pri": "166",
-    "time": "2013-12-27T16:12:57.896Z",
-    "hostname": "hostname.com",
-    "program": "Vpxa",
-    "esxi_system_info": "[507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e]",
-    "esxi_thread_id": "507F9B90",
-    "esxi_loglevel": "verbose",
-    "esxi_service": "vpxavpxaInvtHost",
-    "esxi_opID": "opID=WFU-e579383e",
-    "esxi_service_info": "HostChanged",
-    "esxi_message": "Found update for tracked MoRef vim.HostSystem:ha-host",
-    "syslog_severity_code": 6,
-    "syslog_facility_code": 20,
-    "syslog_facility": "local4",
-    "syslog_severity": "informational",
-    "ip_address": "172.24.69.100",
-    "message-raw": "<166>2013-12-27T16:12:57.896Z hostname.com Vpxa: [507F9B90 verbose 'vpxavpxaInvtHost'
-      opID=WFU-e579383e] [HostChanged] Found update for tracked MoRef vim.HostSystem:ha-host\n",
-    "message": "[507F9B90 verbose 'vpxavpxaInvtHost' opID=WFU-e579383e] [HostChanged] Found update for
-      tracked MoRef vim.HostSystem:ha-host"
-  },
-  "sort": [ 1388160777896 ]
+  "_index": 				"logstash-2014.03.21",
+  "_type": 					"logs",
+  "_id": 					"LeKbd5UrRuaK6lTSmWStDw",
+  "_score": 				null,
+  "_source": 				{
+    "@timestamp": 				"2014-03-21T12:15:03.221-07:00",
+    "tags": 					[ "esx" ],
+    "syslog_pri": 				"166",
+    "message_program": 			"Vpxa",
+    "message-body": 			"[7D6B0B90 verbose 'hostdvm' opID=WFU-87a0f82b] [VpxaHalVmHostagent] 3: GuestInfo changed 'guest.disk'",
+    "message_system_info": 		"[7D6B0B90 verbose 'hostdvm' opID=WFU-87a0f82b]",
+    "message_thread_id": 		"7D6B0B90",
+    "syslog_level": 			"verbose",
+    "message_service": 			"hostdvm",
+    "message_opID": 			"opID=WFU-87a0f82b",
+    "message_service_info": 	"VpxaHalVmHostagent",
+    "message-syslog": 			"3: GuestInfo changed 'guest.disk'",
+    "syslog_severity_code": 	6,
+    "syslog_facility_code": 	20,
+    "syslog_facility": 			"local4",
+    "syslog_severity": 			"informational",
+    "syslog_source-IP": 		"<ip_address>",
+    "syslog_source-hostname": 	"<source_fqdn>",
+    "message-raw": 				"<166>2014-03-21T19:15:03.206Z <source_fqdn> Vpxa: [7D6B0B90 verbose 'hostdvm' opID=WFU-87a0f82b] [VpxaHalVmHostagent] 3: GuestInfo changed 'guest.disk'\n"
+  							},
+  "sort": 					[ 1395429303221 ]
 }
 ````
+Note: I need to update this screenshot. But it's very similar:
+
 <a href="http://imgur.com/2dA4WGI"><img src="http://i.imgur.com/2dA4WGI.png" title="Screenshot from Kibana" /></a>
