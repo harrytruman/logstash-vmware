@@ -9,11 +9,11 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 
 ## Configs
 
-1. [Logstash](https://github.com/harrytruman/logstash-vmware/blob/master/logstash.conf): Performs tag-based filtering/parsing and sends them to Elasticsearch for indexing.
+1. [Logstash](https://github.com/harrytruman/logstash-vmware/blob/master/logstash.conf): Retrieves messages from Redis. Performs tag-based filtering/parsing and sends them to Elasticsearch for indexing.
 
 2. [Logstash Forwarder](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-forwarder.conf): Central forwarder; environment tagging of messages and forwarding to Redis.
 
-3. [Logstash Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-vcenter.conf): Ships messages from Windows to Logstash.
+3. [Logstash Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-vcenter.conf): Ships messages from Windows to the Logstash forwarder.
 
 ## Filter Examples
 
