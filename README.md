@@ -3,9 +3,7 @@ logstash-vmware
 
 ###Logstash configs and filters for handling ESXi and vSphere 5.x+ messages.
 
-If you're familiar with logs from VMware systems, you'll probably already know that their log formats are rather...diverse.  These patterns are the result of my searching and finding only one other Logstash config for parsing message from anything related to VMware.  I needed a central logging system to handle messages specifically from my ESXi 5.x hosts and vCenter running on Windows Server 2008/2012 (ugh).
-
-Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ESXi 5.x Pattern](https://gist.github.com/martinseener/5238576).  His pattern was the only one I found for *anything* involving VMware so I heavily modified it to meet my needs.  They're not the cleanest and they're certainly not the most well-written, but they do the job very nicely.  If you find them useful, feel free to suggest improvements!
+Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ESXi 5.x Pattern](https://gist.github.com/martinseener/5238576).  His pattern was the only one I found for *anything* involving VMware, so I heavily modified it to meet my needs.  They're not the cleanest and they're certainly not the most well-written, but they do the job very nicely.  If you find them useful, feel free to suggest improvements!
 
 ## Configs
 
