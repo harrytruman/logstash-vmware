@@ -1,4 +1,4 @@
-logstash-vmware
+Logstash with ESXi and vCenter
 ===============
 
 ###Logstash configs and filters for handling ESXi and vSphere 5.x+ messages.
