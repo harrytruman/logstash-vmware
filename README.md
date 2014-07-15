@@ -12,6 +12,8 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 2. [Logstash Forwarder](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-forwarder.conf): Central forwarder; environment tagging of messages and forwarding to Redis.
 
 3. [Logstash Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-vcenter.conf): Ships messages from Windows to the Logstash forwarder.
+   - OR -
+4. [nxlog Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/nxlog.conf): Ships messages from Windows to the Logstash forwarder.
 
 ## Filter Examples
 
