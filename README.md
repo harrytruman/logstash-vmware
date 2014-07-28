@@ -13,6 +13,11 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 
 3. [Logstash Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/logstash-vcenter.conf) or [nxlog Shipper](https://github.com/harrytruman/logstash-vmware/blob/master/nxlog.conf): Ships messages from Windows to the Logstash forwarder.
 
+
+## Alerting
+String-based alerting: 3 messages within 5 minutes will trigger an email notification.
+[Example: Failed Login Alerts](https://github.com/harrytruman/logstash-vmware/blob/master/alerting.md)
+
 ## Filter Examples
 
 This message:
