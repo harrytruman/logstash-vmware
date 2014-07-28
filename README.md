@@ -16,6 +16,7 @@ Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ES
 
 ## Alerting
 String-based alerting: 3 messages within 5 minutes will trigger an email notification.
+
 [Example: Failed Login Alerts](https://github.com/harrytruman/logstash-vmware/blob/master/alerting.md)
 
 ## Filter Examples
