@@ -5,11 +5,11 @@ This is a very simple example of configuring email alerts (or whatever else you 
 
 ESX:
 
-	````<164>2014-06-24T18:00:36.225Z host.domain.com Hostd: Rejected password for user alfred from 172.23.221.4````
+	<164>2014-06-24T18:00:36.225Z host.domain.com Hostd: Rejected password for user alfred from 172.23.221.4
 
 vCenter:
 
-	````2014-07-18T05:06:06.445-07:00 [04916 error 'authvpxdUser' opID=23bd4053] Failed to authenticate user <alfred>````
+	2014-07-18T05:06:06.445-07:00 [04916 error 'authvpxdUser' opID=23bd4053] Failed to authenticate user <alfred>
 
 Grok filters parse and tag messages, a throttle filter sets a threshold to occur after 3 messages within 5 minutes. and email outputs get triggered if all those conditions are met.
 
