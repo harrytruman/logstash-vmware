@@ -9,7 +9,7 @@ This is a very simple example of configuring email alerts (or whatever else you 
 
 Grok filters parse and tag messages, a throttle filter sets a threshold to occur after 3 messages within 5 minutes. and email outputs get triggered if all those conditions are met.
 
-````
+````ruby
 filter {
   if "Rejected" in [message] {
     grok {
