@@ -7,7 +7,7 @@ This is a very simple example of configuring email alerts (or whatever else you 
 	
 	2014-07-18T05:06:06.445-07:00 [04916 error 'authvpxdUser' opID=23bd4053] Failed to authenticate user <alfred>
 
-Grok filters parse and tag messages, a throttle filter sets a threshold to occur after 3 messages within 5 minutes. and email outputs get triggered if all those conditions are met.
+Grok filters parse and tag messages, a throttle filter sets a threshold to occur after 3 messages within 5 minutes, and email outputs get triggered if all those conditions are met.
 
 ````puppet
 filter {
