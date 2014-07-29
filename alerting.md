@@ -1,7 +1,7 @@
 Failed Login Alerting
 ===============
 
-This is a very simple example of configuring email alerts (or whatever else you want) for failed login attempts. In this Source messages are from ESXi and vCenter, respectively:
+This is a very simple example of configuring email alerts (or whatever else you want) for failed login attempts. Source messages are from ESXi and vCenter, respectively:
 
 	<164>2014-06-24T18:00:36.225Z host.domain.com Hostd: Rejected password for user alfred from 172.23.221.4
 	
