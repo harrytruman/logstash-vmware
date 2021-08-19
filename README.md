@@ -5,7 +5,7 @@ Logstash with ESXi and vCenter
 
 Logstash configs and grok filters for handling ESXi and vSphere 5.x+ messages.
 
-Credit to [Martin Seener](https://gist.github.com/martinseener) for his [Grok ESXi 5.x Pattern](https://gist.github.com/martinseener/5238576).
+Credit to [Martin Seener](https://www.github.com/martinseener) for his [Grok ESXi 5.x Pattern](https://gist.github.com/martinseener/5238576).
 
 ## Configs
 
